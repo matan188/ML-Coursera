@@ -19,6 +19,15 @@ grad = zeros(size(theta));
 %
 % Note: grad should have the same dimensions as theta
 %
+% Calculate J:
+pred = X*theta;
+sigged = sigmoid(pred);
+J = (1/m)* sum(-y .* log(sigged) - (1 - y) .* log(1 - sigged));
+
+
+% Calculate grad:
+grad = ((1/m) .* (sum((sigged - y) .* X)))';
+
 
 
 
