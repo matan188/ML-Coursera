@@ -11,9 +11,13 @@ figure; hold on;
 %               2D plot, using the option 'k+' for the positive
 %               examples and 'ko' for the negative examples.
 %
-
-
-
+passed = find(y == 1);
+failed = find(y == 0);
+scatter(X(passed,1), X(passed,2), 'k', '+');
+scatter(X(failed,1), X(failed,2), 'y', 'o', 'filled', 'markeredgecolor', 'k');
+legend('positive', 'negative');
+xlabel('Exam1');
+ylabel('Exam2');
 
 
 
