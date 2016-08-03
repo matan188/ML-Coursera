@@ -90,9 +90,31 @@ reg = (lambda/(2*m)) * (sum(sum(T1 .* T1)) + sum(sum(T2 .* T2)));
 J = J + reg;
 
 
+% Backpropagation
+Del_2 = zeros(size(Theta2));
+Del_1 = zeros(size(Theta1));
+for t = 1:m
+  %%% might be able to replace this with matrix a3 above
+  a_1 = [1 X(t, :)];
+  z_2 = Theta1 * a_1';
+  
+  a_2 = [1; sigmoid(z_2)];
+  z_3 = Theta2 * a_2;
+  
+  a_3 = sigmoid(z_3);
+  %%% end of replacement
+  
+  y_k = (1:num_labels)' == y(t);
+  d_3 = (a_3 - y_k);
+  
+  d_2 = (Theta2' * d_3) .* (a_2 .* (1-a_2));
+  Del_2 = Del_2 + d_3 * a_2';
+  
+  Del_1 = Del_1 + d_2(2:end) * a_1;
+endfor
 
-
-
+Theta2_grad = (1/m) * (Del_2 + lambda*[zeros(size(Theta2), 1) Theta2(:, 2:end)]);
+Theta1_grad = (1/m) * (Del_1 + lambda*[zeros(size(Theta1), 1) Theta1(:, 2:end)]);
 
 
 
